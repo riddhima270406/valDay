@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Akash's Roses 🌹</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  user-select:none;
+}
+
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+
+  /* Elegant Rose Theme */
+  background: linear-gradient(
+    135deg,
+    #f6a3c8,   /* soft rose pink */
+    #f190c7,   /* romantic magenta */
+    #bb9ef3    /* lavender glow */
+  );
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  text-align: center;
+}
+
+
+
+/* Click Hint (smaller + subtle) */
+#hint{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:1.1rem;
+  color:rgba(120,0,50,0.3);
+  font-weight:400;
+  z-index:50;
+  pointer-events:none;
+  animation:pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:0.25;}
+  50%{opacity:0.6;}
+}
+
+/* Back Button */
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 2rem;
+  text-decoration: none;
+  color: rgba(120, 0, 50, 0.35);
+  z-index: 9999;
+  transition: 0.25s ease;
+}
+
+.back-btn:hover {
+  color: rgba(120, 0, 50, 0.75);
+}
+
+/* Shower container */
+#rose-container{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  z-index:1;
+}
+
+/* Falling roses */
+.rose{
+  position:absolute;
+  width:45px;
+  animation:fall 2.2s linear forwards;
+  pointer-events:none;
+}
+
+@keyframes fall{
+  from{transform:translateY(-120px) rotate(0);}
+  to{
+    transform:translateY(var(--y))
+      translateX(var(--x))
+      rotate(720deg);
+  }
+}
+
+.fade{
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+
+/* Compliment roses */
+.rose-btn{
+  position:absolute;
+  width:70px;
+  cursor:pointer;
+  transition:transform 0.25s ease;
+  z-index:5;
+}
+.rose-btn:hover{
+  transform:scale(1.2);
+}
+
+.heart-bg {
+  position: absolute;
+  font-size: 19px;
+  opacity: 0.25;
+  animation: float 7s infinite ease-in-out;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-35px); }
+}
+
+/* Compliment cards */
+#compliments{
+  display:none;
+  position:absolute;
+  bottom:40px;
+  width:100%;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+  z-index:10;
+}
+
+.compliment-card{
+  width:220px;
+  padding:15px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.78);
+  border:1px solid rgba(220,20,60,0.35);
+  box-shadow:0 8px 20px rgba(220,20,60,0.25);
+  text-align:center;
+  color:#7a1030;
+  font-size:0.95rem;
+  opacity:0;
+  transform:translateY(20px);
+  transition:0.4s ease;
+}
+
+.compliment-card.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Greeting box */
+#greeting{
+  display:none;
+  position:absolute;
+  top:15%;
+  left:50%;
+  transform:translateX(-50%);
+  padding:55px 95px;
+  border-radius:45px;
+  text-align:center;
+
+  background:linear-gradient(
+    135deg,
+    rgba(254, 137, 157, 0.85),
+    rgba(255, 190, 240, 0.85)
+  );
+
+  color:#5a0d22;
+  font-family:"Playfair Display",serif;
+  font-size:3.3rem;
+  border: 1px solid rgba(180, 0, 0, 0.795);
+
+  /* box-shadow:0 20px 45px rgba(220,20,60,0.35),
+             inset 0 0 25px rgba(255,255,255,0.25); */
+
+  z-index:20;
+  animation:pop 1s ease;
+}
+
+#greeting p{
+  margin-top:14px;
+  font-size:1.2rem;
+}
+
+@keyframes pop{
+  from{opacity:0; transform:translateX(-50%) scale(0.75);}
+  to{opacity:1; transform:translateX(-50%) scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Back Button -->
+<a href="index.html" class="back-btn">🠸</a>
+
+
+
+<!-- Hint -->
+<div id="hint">Click anywhere on the screen</div>
+
+<!-- Roses -->
+<div id="rose-container"></div>
+
+<!-- Greeting -->
+<div id="greeting">
+  Happy Rose Dayy <br>Kitten!🥀
+  <p>As i could not give you a rose irl so here I filled your screen with roses cutie....and well some facts as well hehe 😚🌹</p>
+  <p>I LOVE YOU 😽</p>
+</div>
+
+<!-- Compliments -->
+<div id="compliments"></div>
+
+<!-- Audio -->
+<audio id="musicS" src="./assets/audios/roseShower.mp3"></audio>
+<audio id="musicG" src="./assets/audios/roseGreet.mp3"></audio>
+
+<script>
+
+for (let i = 0; i < 18; i++) {
+  const heart = document.createElement("div");
+  heart.className = "heart-bg";
+  heart.textContent = "🌹";
+  heart.style.left = Math.random() * 100 + "%";
+  heart.style.top = Math.random() * 100 + "%";
+  heart.style.animationDelay = Math.random() * 5 + "s";
+  document.body.appendChild(heart);
+}
+
+const container = document.getElementById("rose-container");
+const complimentsDiv = document.getElementById("compliments");
+const greeting = document.getElementById("greeting");
+const hint = document.getElementById("hint");
+
+const musicS = document.getElementById("musicS");
+const musicG = document.getElementById("musicG");
+
+const roseImg = "./assets/rose.png";
+
+const TOTAL_ROSES = 450;
+let roses = [];
+let showerStarted = false;
+
+/* Compliments */
+const compliments = [
+  "You are the sky that has my sun 🌞",
+  "Your happiness is my favorite sight 🌈",
+  "You are the rarest flower in the garden that is my heart 💖",
+  "Your touch is the sun and I'm the sunflower 🌻",
+  "You are the bane of my existence and the object of all my desires 🙈"
+];
+
+/* Start shower ONLY after first click */
+window.addEventListener("click", () => {
+  if (!showerStarted) {
+    showerStarted = true;
+    hint.style.display = "none";
+    startShower();
+  }
+});
+
+/* Shower */
+function startShower(){
+
+  /* ✅ Shower audio plays because user clicked */
+  musicS.currentTime = 0;
+  musicS.play();
+
+  for(let i=0;i<TOTAL_ROSES;i++){
+    const r = document.createElement("img");
+    r.src = roseImg;
+    r.className = "rose";
+
+    r.style.left = Math.random()*window.innerWidth+"px";
+    r.style.setProperty("--y", Math.random()*window.innerHeight+"px");
+    r.style.setProperty("--x", Math.random()*250-125+"px");
+    r.style.animationDelay = Math.random()*1.5+"s";
+
+    container.appendChild(r);
+    roses.push(r);
+  }
+
+  setTimeout(()=>{
+    container.addEventListener("click", clearRoses);
+
+    setTimeout(()=>{
+      musicS.pause();
+      musicS.currentTime = 0;
+    }, 3000);
+
+  },2200);
+}
+
+/* Clear roses */
+function clearRoses(e){
+  const x = e.clientX;
+  const y = e.clientY;
+  const radius = 170;
+
+  roses.forEach(r=>{
+    const rect = r.getBoundingClientRect();
+    const dx = rect.left - x;
+    const dy = rect.top - y;
+    if(Math.sqrt(dx*dx + dy*dy) < radius){
+      r.classList.add("fade");
+      setTimeout(()=>r.remove(),350);
+    }
+  });
+
+  roses = roses.filter(r=>!r.classList.contains("fade"));
+
+  if(roses.length < 50){
+    container.removeEventListener("click", clearRoses);
+    setTimeout(showComplimentRoses,600);
+  }
+}
+
+/* Show compliment roses */
+function showComplimentRoses(){
+  container.innerHTML="";
+  complimentsDiv.style.display="flex";
+
+  let opened = 0;
+  let roseButtons = [];
+
+  for(let i=0;i<5;i++){
+    const btn = document.createElement("img");
+    btn.src = roseImg;
+    btn.className="rose-btn";
+    btn.style.left = (15 + i*17) + "%";
+    btn.style.top = "55%";
+
+    roseButtons.push(btn);
+
+    const card = document.createElement("div");
+    card.className="compliment-card";
+    card.textContent = compliments[i];
+
+    complimentsDiv.appendChild(card);
+    container.appendChild(btn);
+
+    btn.addEventListener("click", ()=>{
+      if(card.classList.contains("show")) return;
+
+      card.classList.add("show");
+      opened++;
+
+      if(opened === 5){
+
+        /* ✅ Greeting audio plays on user click */
+        musicG.currentTime = 0;
+        musicG.play();
+
+        setTimeout(() => {
+          roseButtons.forEach(r => r.remove());
+          greeting.style.display = "block";
+        }, 600);
+      }
+    });
+  }
+}
+</script>
+
+</body>
+</html>

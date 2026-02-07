@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>i am here.   ♥︎</title>
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+
+      background: linear-gradient(
+        135deg,
+        #cda8ff,
+        #bfa6ff,
+        #f7c7ff
+      );
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Back Button */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 2rem;
+      text-decoration: none;
+      color: rgba(50, 0, 80, 0.35);
+      transition: 0.3s ease;
+      z-index: 50;
+    }
+
+    .back-btn:hover {
+      color: rgba(50, 0, 80, 0.85);
+      transform: scale(1.1);
+    }
+
+    /* Floating hearts */
+    .heart-bg {
+      position: absolute;
+      font-size: 16px;
+      opacity: 0.20;
+      animation: float 7s infinite ease-in-out;
+      z-index: 0;          
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-35px); }
+    }
+
+    /* Main Title */
+    #title {
+      position: absolute;
+      top: 5%;
+      width: 100%;
+      text-align: center;
+
+      font-family: "Great Vibes", cursive;
+      font-size: 5rem;
+      color: rgba(50, 0, 80, 0.85);
+      text-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Final Greeting */
+    #final-text {
+      display: none;
+      position: absolute;
+      top: 28%;
+      width: 100%;
+      text-align: center;
+
+      font-family: "Great Vibes", cursive;
+      font-size: 3rem;
+      color: white;
+      text-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      z-index: 20;
+
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Locks Container */
+    #locks-container {
+      position: absolute;
+      top: 55%;
+      width: 900px;
+      height: 260px;
+
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* Lock Box */
+    .lock-box {
+      position: absolute;
+      width: 150px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1.8s ease;
+    }
+
+    .lock-box.visible {
+      opacity: 1;
+    }
+
+    /* Lock Icon */
+    .lock {
+      font-size: 3.2rem;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+
+    .lock:hover {
+      transform: scale(1.12);
+    }
+
+    /* Lock Click Animation */
+    .lock.locked {
+      animation: pop 0.4s ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+      100% { transform: scale(1); }
+    }
+
+    /* Promise Box */
+    .promise-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.769);
+      z-index: 20;
+
+      font-family: "Great Vibes", cursive;
+      font-size: 1.4rem;
+      color: rgba(50, 0, 80, 0.85);
+
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+
+      display: none;
+    }
+
+    .promise-box.show {
+      display: block;
+      animation: fadePromise 1s ease;
+    }
+
+    @keyframes fadePromise {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Back Button -->
+  <a href="index.html" class="back-btn">🠸</a>
+
+  <!-- Title -->
+  <div id="title">Happy Promise Day bub! 💜</div>
+
+  <!-- Final Greeting -->
+  <div id="final-text">
+    These promises are not just for today but for... <br>
+    always and forever ❤️‍🩹💙
+  </div>
+
+  <!-- Locks -->
+  <div id="locks-container"></div>
+
+  <!-- Sounds -->
+  <audio id="clickSound" src="./assets/audios/click.mp3"></audio>
+  <audio id="greetSound" src="./assets/audios/promGreet.wav"></audio>
+
+  <script>
+    /* Floating hearts */
+    for (let i = 0; i < 18; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart-bg";
+      heart.textContent = "💜";
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.top = Math.random() * 100 + "%";
+      heart.style.animationDelay = Math.random() * 5 + "s";
+      document.body.appendChild(heart);
+    }
+
+    const locksContainer = document.getElementById("locks-container");
+    const clickSound = document.getElementById("clickSound");
+    const greetSound = document.getElementById("greetSound");
+    const finalText = document.getElementById("final-text");
+
+    const promises = [
+      "I promise to listen to you and understand you.",
+      "I promise to stand by you.",
+      "I promise to choose you every second.",
+      "I promise to be safe for you.",
+      "I promise to love you in every situation."
+    ];
+
+    let lockedCount = 0;
+
+    /* Fixed Lock Positions */
+    const positions = [50, 230, 410, 590, 770];
+
+    /* Create locks one-by-one */
+    promises.forEach((text, i) => {
+
+      const lockBox = document.createElement("div");
+      lockBox.className = "lock-box";
+      lockBox.style.left = positions[i] + "px";
+
+      lockBox.innerHTML = `
+        <div class="lock">🔓</div>
+        <div class="promise-box">${text}</div>
+      `;
+
+      locksContainer.appendChild(lockBox);
+
+      /* Appear slowly one-by-one */
+      setTimeout(() => {
+        lockBox.classList.add("visible");
+      }, i * 900);
+
+      const lock = lockBox.querySelector(".lock");
+      const promiseBox = lockBox.querySelector(".promise-box");
+
+      /* Click lock */
+      lock.addEventListener("click", () => {
+
+        if (lock.classList.contains("locked")) return;
+
+        clickSound.currentTime = 0;
+        clickSound.play();
+
+        lock.textContent = "🔒";
+        lock.classList.add("locked");
+
+        promiseBox.classList.add("show");
+
+        lockedCount++;
+
+        /* Final greeting */
+        if (lockedCount === promises.length) {
+          setTimeout(() => {
+            finalText.style.display = "block";
+
+            greetSound.currentTime = 0;
+            greetSound.play();
+          }, 1500);
+        }
+      });
+
+    });
+  </script>
+
+</body>
+</html>

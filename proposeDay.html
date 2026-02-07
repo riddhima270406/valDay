@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mine? 👀💙</title>
+
+  <!-- Romantic Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+
+      /* Vibrant Proposal Theme (Blue Side) */
+      background: linear-gradient(
+        135deg,
+        #6fa8ff,
+        #c77dff,
+        #ffd1f0
+      );
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+      text-align: center;
+    }
+
+
+    /* Floating hearts */
+    .heart-bg {
+      position: absolute;
+      font-size: 16px;
+      opacity: 0.25;
+      animation: float 7s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-35px); }
+    }
+
+    /* Proposal screen */
+    #proposal-screen {
+      text-align: center;
+      width: 650px;
+      height: 350px;
+      position: relative;
+    }
+
+    /* Cursive romantic question */
+    #prompt {
+      font-family: "Great Vibes", cursive;
+      font-size: 4.5rem;
+      font-weight: 400;
+      color: #64102a;
+      margin-bottom: 10px;
+    }
+
+    /* Click counter */
+    #click-counter {
+      display: none;
+      font-size: 1.1rem;
+      color: rgba(100, 16, 42, 0.7);
+      margin-bottom: 35px;
+    }
+
+    /* Buttons */
+    .button {
+      padding: 14px 55px;
+      font-size: 1.3rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.25s ease;
+      position: absolute;
+    }
+
+    #yes-btn {
+      background: linear-gradient(to right, #ff2f68, #ff6fa3);
+      color: white;
+      box-shadow: 0 8px 20px rgba(255, 70, 120, 0.35);
+
+      left: 180px;
+      top: 220px;
+    }
+
+    #no-btn {
+      background: rgba(255, 255, 255, 0.65);
+      color: #64102a;
+      border: 1px solid rgba(255, 80, 140, 0.25);
+
+      left: 360px;
+      top: 220px;
+    }
+
+    .button:hover {
+      transform: scale(1.07);
+    }
+
+    /* Celebration */
+    #celebration-screen {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      z-index: 20;
+
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #celebration-message {
+      font-family: "Great Vibes", cursive;
+      font-size: 3.5rem;
+      color: #64102a;
+      text-align: center;
+    }
+
+    /* Burst hearts */
+    .burst-heart {
+      position: absolute;
+      font-size: 34px;
+      animation: burst 2s ease-out forwards;
+    }
+
+    @keyframes burst {
+      0% { transform: scale(0); opacity: 0.70; }
+      50% { transform: scale(1.5); }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    /* ✅ Back Button FIX */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+
+      font-size: 2rem;
+      text-decoration: none;
+
+      color: rgba(120, 0, 50, 0.35);
+      padding: 8px 14px;
+      border-radius: 50px;
+
+      transition: all 0.3s ease;
+
+      z-index: 999; /* ✅ THIS MAKES IT STAY ABOVE CELEBRATION */
+    }
+
+    .back-btn:hover {
+      color: rgba(120, 0, 50, 0.642);
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+  <a href="index.html" class="back-btn">🠸</a>
+
+  <div id="proposal-screen">
+    <p style="font-family: 'Great Vibes', cursive; font-size: 1.2rem; color: #64102a;">Happy propose day, my love! 💘<br></p>
+    <div id="prompt">Will you be mine? 💕</div>
+    <div id="click-counter"> 0 / 17</div>
+
+    <button id="yes-btn" class="button">Yes</button>
+    <button id="no-btn" class="button">No</button>
+  </div>
+
+  <div id="celebration-screen">
+    <div id="celebration-message">
+      You were already mine since <br />
+      <span style="color:#ff2f68;">June 15, 2023 💘</span>
+      <p style="font-size: 22px;"><br><br>it was specifically 17 clicks for each year we spent apart 💗</p>
+    </div>
+
+    <audio id="sound" src="./assets/audios/proGreet.mp3" preload="auto"></audio>
+  </div>
+
+  <script>
+    /* Floating hearts background */
+    for (let i = 0; i < 18; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart-bg";
+      heart.textContent = "💞";
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.top = Math.random() * 100 + "%";
+      heart.style.animationDelay = Math.random() * 5 + "s";
+      document.body.appendChild(heart);
+    }
+
+    const yesBtn = document.getElementById("yes-btn");
+    const noBtn = document.getElementById("no-btn");
+    const clickCounter = document.getElementById("click-counter");
+
+    const proposalScreen = document.getElementById("proposal-screen");
+    const celebrationScreen = document.getElementById("celebration-screen");
+    const sound = document.getElementById("sound");
+
+    let attempts = 0;
+    const maxClicks = 17;
+
+    /* YES runaway function */
+    function runaway() {
+      const container = proposalScreen.getBoundingClientRect();
+      const btnWidth = yesBtn.offsetWidth;
+      const btnHeight = yesBtn.offsetHeight;
+
+      const padding = 20;
+
+      const maxX = container.width - btnWidth - padding;
+      const maxY = container.height - btnHeight - padding;
+
+      let newX = Math.random() * maxX;
+      let newY = 160 + Math.random() * (maxY - 160);
+
+      yesBtn.style.left = newX + "px";
+      yesBtn.style.top = newY + "px";
+    }
+
+    /* HARD MODE: Move away from mouse */
+    document.addEventListener("mousemove", (e) => {
+      const rect = yesBtn.getBoundingClientRect();
+
+      const distance = Math.sqrt(
+        (e.clientX - (rect.left + rect.width / 2)) ** 2 +
+        (e.clientY - (rect.top + rect.height / 2)) ** 2
+      );
+
+      if (distance < 120 && attempts < maxClicks) {
+        runaway();
+      }
+    });
+
+    /* No disappears */
+    noBtn.addEventListener("mouseenter", () => {
+      noBtn.style.opacity = "0";
+      setTimeout(() => noBtn.remove(), 600);
+    });
+
+    /* Yes click counter */
+    yesBtn.addEventListener("click", () => {
+      if (attempts === 0) clickCounter.style.display = "block";
+
+      attempts++;
+      clickCounter.textContent = `Times you have agreed: ${attempts}`;
+
+      if (attempts >= maxClicks) {
+        celebrate();
+      }
+    });
+
+    /* Celebration */
+    function celebrate() {
+      proposalScreen.style.display = "none";
+      celebrationScreen.style.display = "flex";
+      sound.play();
+
+      for (let i = 0; i < 25; i++) {
+        setTimeout(() => {
+          const heart = document.createElement("div");
+          heart.className = "burst-heart";
+          heart.textContent = "❤️";
+          heart.style.left = Math.random() * 100 + "%";
+          heart.style.top = Math.random() * 100 + "%";
+          celebrationScreen.appendChild(heart);
+
+          setTimeout(() => heart.remove(), 2000);
+        }, i * 90);
+      }
+    }
+  </script>
+</body>
+</html>

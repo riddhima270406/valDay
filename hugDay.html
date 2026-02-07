@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hug? 🤗</title>
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+
+      background: linear-gradient(to left, #9790f4, #f79af7, #fa7f90);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Back Button */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 2rem;
+      text-decoration: none;
+      color: rgba(60, 0, 80, 0.35);
+      transition: 0.3s ease;
+      z-index: 50;
+    }
+
+    .back-btn:hover {
+      color: rgba(60, 0, 80, 0.85);
+      transform: scale(1.1);
+    }
+
+    /* Floating Hearts */
+    .heart-bg {
+      position: absolute;
+      font-size: 16px;
+      opacity: 0.25;
+      animation: float 9s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-25px); }
+    }
+
+    /* Container */
+    .hug-container {
+      text-align: center;
+      width: 700px;
+      max-width: 90%;
+    }
+
+    h1 {
+      font-family: "Great Vibes", cursive;
+      font-size: 4.2rem;
+      color: #3a014c;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: rgba(60, 10, 80, 0.75);
+      margin-bottom: 50px;
+    }
+
+    /* Main Heart */
+    #heart {
+      font-size: 6.5rem;
+      cursor: pointer;
+      margin-bottom: 35px;
+    }
+
+    #heart.beating {
+      animation: beat 0.85s infinite ease-in-out;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+    }
+
+    /* Line */
+    #color-line {
+      width: 480px;
+      height: 26px;
+      border-radius: 50px;
+      margin: 0 auto;
+
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 0 25px rgba(150, 80, 255, 0.25);
+
+      position: relative;
+      overflow: hidden;
+      transition: background 1s ease;
+    }
+
+    /* Hearts ON Line */
+    .point-heart {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+      transition: 0.08s linear;
+    }
+
+    #red-heart {
+      left: 0;
+    }
+
+    #blue-heart {
+      right: 0;
+    }
+
+    /* Purple Heart */
+    #purple-heart {
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+    }
+
+    /* Greeting */
+    #love-greeting {
+      display: none;
+      margin-top: 45px;
+      font-family: "Great Vibes", cursive;
+      font-size: 3.2rem;
+      color: white;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    #love-greeting.show {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Pop Hearts */
+    .pop-heart {
+      position: absolute;
+      font-size: 26px;
+      animation: pop 1.6s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 1; }
+      50% { transform: scale(1.6); }
+      100% { transform: translateY(-130px) scale(0.6); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Back -->
+  <a href="index.html" class="back-btn">🠸</a>
+
+  <!-- Floating Hearts -->
+  <script>
+    for (let i = 0; i < 18; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart-bg";
+      heart.textContent = "💓";
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.top = Math.random() * 100 + "%";
+      heart.style.animationDelay = Math.random() * 6 + "s";
+      document.body.appendChild(heart);
+    }
+  </script>
+
+  <!-- Hug Container -->
+  <div class="hug-container">
+    <h1>Happy hug day baby! 💝🤗</h1>
+    <p style="font-size: 30px; font-family: Great Vibes, cursive;"><br>This hug is for you 🫂...press & hold</p>
+
+    <div id="heart">💖</div>
+
+    <div id="color-line">
+      <div id="red-heart" class="point-heart">❤️</div>
+      <div id="blue-heart" class="point-heart">💙</div>
+      <div id="purple-heart">💜</div>
+    </div>
+
+    <div id="love-greeting">Our hearts are one 💜</div>
+  </div>
+
+  <!-- Heartbeat -->
+  <audio id="heartbeat" src="./assets/audios/heartbeat.wav"></audio>
+  <audio id="bubble" src="./assets/audios/bubble.mp3"></audio>
+
+  <script>
+    const heart = document.getElementById("heart");
+    const redHeart = document.getElementById("red-heart");
+    const blueHeart = document.getElementById("blue-heart");
+    const purpleHeart = document.getElementById("purple-heart");
+    const colorLine = document.getElementById("color-line");
+    const greeting = document.getElementById("love-greeting");
+    const heartbeat = document.getElementById("heartbeat");
+
+    let holding = false;
+    let startTime;
+
+    const duration = 4500;
+    const lineWidth = 480;
+
+    function startHold() {
+      if (holding) return;
+      holding = true;
+      startTime = Date.now();
+      requestAnimationFrame(update);
+    }
+
+    function endHold() {
+      holding = false;
+    }
+
+    function update() {
+      if (!holding) return;
+
+      const progress = Math.min((Date.now() - startTime) / duration, 1);
+
+      const move = progress * (lineWidth / 2);
+
+      redHeart.style.left = move + "px";
+      blueHeart.style.right = move + "px";
+
+      /* Gradient grows WITH hearts */
+      const redStop = (move / lineWidth) * 100;
+      const blueStop = 100 - redStop;
+
+      colorLine.style.background =
+        `linear-gradient(to right,
+          #ff2f7d 0% ${redStop}%,
+          #b55cff ${redStop}% ${blueStop}%,
+          #4a6cff ${blueStop}% 100%)`;
+
+      if (progress >= 1) complete();
+      else requestAnimationFrame(update);
+    }
+
+    function complete() {
+      holding = false;
+
+      /* Whole line becomes purple */
+      colorLine.style.background = "#b55cff";
+
+      redHeart.style.display = "none";
+      blueHeart.style.display = "none";
+
+      purpleHeart.style.display = "block";
+
+      greeting.classList.add("show");
+
+      /* Beat + sound */
+      heart.classList.add("beating");
+      heartbeat.loop = true;
+      bubble.currentTime = 3.3;
+      bubble.play();
+      heartbeat.currentTime = 0;
+      heartbeat.play();
+
+      popper();
+    }
+
+    function popper() {
+      for (let i = 0; i < 18; i++) {
+        setTimeout(() => {
+          const pop = document.createElement("div");
+          pop.className = "pop-heart";
+          pop.textContent = "💖";
+          pop.style.left = 50 + (Math.random() * 18 - 9) + "%";
+          pop.style.top = "60%";
+          document.body.appendChild(pop);
+
+          setTimeout(() => pop.remove(), 1600);
+        }, i * 70);
+      }
+    }
+
+    /* Events */
+    heart.addEventListener("mousedown", startHold);
+    heart.addEventListener("mouseup", endHold);
+    heart.addEventListener("mouseleave", endHold);
+
+    heart.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      startHold();
+    });
+
+    heart.addEventListener("touchend", endHold);
+  </script>
+
+</body>
+</html>

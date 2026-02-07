@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kitkat? 😘</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+
+      /* Vibrant Chocolate Theme */
+      background: linear-gradient(
+        135deg,
+        #f791f5,   /* strawberry cream */
+        #bd8dff,   /* soft purple */
+        #ff86d5f7  
+      );
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+      text-align: center;
+    }
+
+
+    /* Back Button */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 2rem;
+      text-decoration: none;
+      color: rgba(80, 30, 20, 0.35);
+      transition: 0.3s;
+      z-index: 50;
+    }
+
+    .back-btn:hover {
+      color: rgba(80, 30, 20, 0.8);
+      transform: scale(1.1);
+    }
+
+    /* Floating hearts */
+    .heart-bg {
+      position: absolute;
+      font-size: 16px;
+      opacity: 0.25;
+      animation: float 7s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-35px); }
+    }
+
+    /* Opening Screen */
+    #opening-screen {
+      text-align: center;
+      z-index: 5;
+    }
+
+    #opening-text {
+      font-family: "Great Vibes", cursive;
+      font-size: 3.2rem;
+      color: #3a1608;
+      margin-bottom: 25px;
+    }
+
+    /* Wrapper */
+    #wrapper {
+      width: 520px;
+      cursor: pointer;
+      transition: 0.6s ease;
+    }
+
+    .unwrap {
+      opacity: 0;
+      transform: translateY(-60px) scale(0.9);
+    }
+
+    /* Chocolate Bar */
+    #chocolate-bar {
+      display: none;
+      width: 560px;
+      height: 320px;
+      background: linear-gradient(145deg, #2a0f07, #4b1d0d);
+      border-radius: 40px;
+      box-shadow: 0 25px 65px rgba(0,0,0,0.45);
+      padding: 28px;
+      position: relative;
+      animation: popIn 0.8s ease;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Pieces Grid */
+    #pieces-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Chocolate Pieces */
+    .piece {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #3b1408, #5c2411);
+      border-radius: 18px;
+      box-shadow:
+        inset 0 6px 12px rgba(255,255,255,0.08),
+        inset 0 -8px 14px rgba(0,0,0,0.55);
+      cursor: pointer;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .piece:hover {
+      transform: scale(1.06);
+    }
+
+    /* Quiz Mode */
+    .piece.quiz {
+      background: rgba(255,255,255,0.96);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px;
+      font-size: 0.85rem;
+      text-align: center;
+      color: #333;
+    }
+
+    .piece input {
+      width: 100%;
+      padding: 7px;
+      border-radius: 10px;
+      border: 1px solid #bbb;
+      outline: none;
+      text-align: center;
+    }
+
+    .piece button {
+      width: 100%;
+      padding: 7px;
+      border: none;
+      border-radius: 12px;
+      background: #b53a1f;
+      color: white;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: 0.2s;
+    }
+
+    .piece button:hover {
+      background: #8c2a14;
+    }
+
+    /* Final Screen */
+    #final-screen {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 20;
+    }
+
+    #final-message {
+      font-family: "Great Vibes", cursive;
+      font-size: 3.8rem;
+      color: #3a1608;
+      text-align: center;
+    }
+
+    /* Burst hearts */
+    .burst-heart {
+      position: absolute;
+      font-size: 34px;
+      animation: burst 2s ease-out forwards;
+    }
+
+    @keyframes burst {
+      0% { transform: scale(0); opacity: 0.7; }
+      50% { transform: scale(1.5); }
+      100% { transform: scale(0); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Back Button -->
+  <a href="index.html" class="back-btn">🠸</a>
+
+  <!-- Floating Hearts -->
+  <script>
+    for (let i = 0; i < 18; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart-bg";
+      heart.textContent = "🍫";
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.top = Math.random() * 100 + "%";
+      heart.style.animationDelay = Math.random() * 5 + "s";
+      document.body.appendChild(heart);
+    }
+  </script>
+
+  <!-- Opening Screen -->
+  <div id="opening-screen">
+    
+    <div id="opening-text">Happy chocolate Day schmookiee! 🍫💝</div>
+    <p style="font-family: 'Great Vibes', cursive; font-size: 1.6rem; color: #3a1608;">click the chocolate....<br></p>
+    <img id="wrapper" src="./assets/choco.png" alt="Wrapper">
+  </div>
+
+  <!-- Chocolate Bar -->
+  <div id="chocolate-bar">
+    <div id="pieces-grid"></div>
+  </div>
+
+  <!-- Final Screen -->
+  <div id="final-screen">
+    <div id="final-message">
+      Well now uk the chocolates that I like 🙈<br>
+      but still u r the chocolate my heart loves the most 💜😋<br>
+      I love you my chocolate 🍫💙
+    </div>
+    <audio id="finalSound" src="./assets/audios/eat.mp3"></audio>
+  </div>
+
+  <!-- Sounds -->
+  <audio id="wrapperSound" src="./assets/audios/wrapper.mp3"></audio>
+
+  <script>
+    const wrapper = document.getElementById("wrapper");
+    const wrapperSound = document.getElementById("wrapperSound");
+
+    const openingScreen = document.getElementById("opening-screen");
+    const chocolateBar = document.getElementById("chocolate-bar");
+    const grid = document.getElementById("pieces-grid");
+
+    const finalScreen = document.getElementById("final-screen");
+    const finalSound = document.getElementById("finalSound");
+
+    /* Questions */
+    const questions = [
+      { q: "Favorite 'premium' chocolate?", a: ["ferrero rocher"] },
+      { q: "Our chocolate memory was with?", a: ["kitkat", "kit kat"] },
+      { q: "Whit or Milk or Dark?", a: ["dark"] },
+      { q: "Favorite brownie nut?", a: ["walnut"] },
+      { q: "Fruit with chocolate?", a: ["strawberry"] },
+      { q: "Favorite chocolate dip?", a: ["nutella"] },
+      { q: "Favorite nut?", a: ["hazelnut"] },
+      { q: "Favorite cake (with chocolate)?", a: ["marble", "brownie"] }
+    ];
+
+    /* FIXED: pieces count always matches questions */
+    let piecesLeft = questions.length;
+
+    /* Wrapper Click */
+    wrapper.addEventListener("click", () => {
+      wrapperSound.play();
+      wrapper.classList.add("unwrap");
+
+      setTimeout(() => {
+        openingScreen.style.display = "none";
+        chocolateBar.style.display = "block";
+        createPieces();
+      }, 700);
+    });
+
+    /* Create Pieces */
+    function createPieces() {
+
+      if (questions.length === 0) {
+        celebrate();
+        return;
+      }
+
+      questions.forEach((item) => {
+        const piece = document.createElement("div");
+        piece.className = "piece";
+
+        piece.addEventListener("click", () => {
+          if (piece.classList.contains("quiz")) return;
+
+          piece.classList.add("quiz");
+
+          piece.innerHTML = `
+            <div>${item.q}</div>
+            <input type="text" placeholder="Answer...">
+            <button>Submit</button>
+          `;
+
+          const input = piece.querySelector("input");
+          const btn = piece.querySelector("button");
+
+          btn.addEventListener("click", () => {
+            const ans = input.value.toLowerCase().trim();
+
+            if (item.a.includes(ans)) {
+
+              piece.style.transition = "0.5s";
+              piece.style.opacity = "0";
+              piece.style.transform = "scale(0.8)";
+              piece.style.pointerEvents = "none";
+
+              piecesLeft--;
+
+              setTimeout(() => {
+                if (piecesLeft <= 0) celebrate();
+              }, 500);
+
+            } else {
+              input.value = "";
+              input.placeholder = "Try again 😌";
+            }
+          });
+        });
+
+        grid.appendChild(piece);
+      });
+    }
+
+    /* Celebration */
+    function celebrate() {
+      chocolateBar.style.display = "none";
+      finalScreen.style.display = "flex";
+      finalSound.play();
+
+      for (let i = 0; i < 25; i++) {
+        setTimeout(() => {
+          const heart = document.createElement("div");
+          heart.className = "burst-heart";
+          heart.textContent = "❤️";
+          heart.style.left = Math.random() * 100 + "%";
+          heart.style.top = Math.random() * 100 + "%";
+          finalScreen.appendChild(heart);
+
+          setTimeout(() => heart.remove(), 2000);
+        }, i * 90);
+      }
+    }
+  </script>
+
+</body>
+</html>

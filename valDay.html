@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sky's gift ❤️‍🔥</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+
+      background: radial-gradient(circle at top,
+        #a2a2ff 0%,
+        #b875f3 40%,
+        #f87dff 80%,
+        #f599e7 100%);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Floating Hearts */
+    .heart-bg {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0.18;
+      animation: float 10s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-55px); }
+    }
+
+    /* Envelope Wrapper */
+    .envelope-wrapper {
+      position: relative;
+      width: 520px;
+      height: 360px;
+      cursor: pointer;
+    }
+
+    /* Envelope */
+    .envelope {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #b84dff, #ff8fd6);
+      border-radius: 25px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .pocket {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 62%;
+      background: rgba(255,255,255,0.25);
+      clip-path: polygon(0 0, 50% 72%, 100% 0, 100% 100%, 0 100%);
+      z-index: 6;
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 70%;
+      background: rgba(255,255,255,0.35);
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      transform-origin: top;
+      transition: 1.2s ease;
+      z-index: 10;
+    }
+
+    /* Envelope Text */
+    .envelope-text {
+      position: absolute;
+      top: 18%;
+      width: 100%;
+      text-align: center;
+
+      font-family: "Great Vibes", cursive;
+      font-size: 2.2rem;
+
+      color: rgba(255, 255, 255, 0.95);
+
+      text-shadow:
+        0 4px 15px rgba(120, 0, 180, 0.45),
+        0 0 25px rgba(255, 180, 255, 0.35);
+
+      z-index: 12;
+    }
+
+    /* Seal */
+    .seal {
+      position: absolute;
+      top: 56%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3em;
+      z-index: 15;
+    }
+
+    /* Paper Letter */
+    .letter {
+      position: absolute;
+      width: 88%;
+      height: 92%;
+      left: 50%;
+      top: 10%;
+      transform: translateX(-50%) translateY(150px);
+
+      background: repeating-linear-gradient(
+        to bottom,
+        #fffdfc,
+        #fffdfc 26px,
+        #f3e8ff 27px
+      );
+
+      border-radius: 18px;
+      padding: 25px 30px;
+
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      opacity: 0;
+      z-index: 1;
+
+      transition: 1.8s ease;
+    }
+
+    .letter-content {
+      height: 100%;
+      overflow-y: auto;
+      padding-right: 10px;
+
+      font-family: "Shadows Into Light", cursive;
+      font-size: 1.6em;
+      color: #6a0572;
+      line-height: 1.6;
+    }
+
+    /* Open Animation */
+    .open .letter {
+      transform: translateX(-50%) translateY(-60px);
+      opacity: 1;
+      z-index: 20;
+    }
+
+    .open .flap {
+      transition-delay: 0.8s;
+      transform: rotateX(180deg);
+    }
+
+    /* Back Button */
+    #backBtn {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(60, 0, 80, 0.5);
+      z-index: 50;
+      transition: 0.3s;
+    }
+
+    #backBtn:hover {
+      transform: scale(1.2);
+      color: rgba(60, 0, 80, 0.9);
+    }
+
+    /* Mute Button Icon */
+    #muteBtn {
+      position: absolute;
+      bottom: 18px;
+      right: 20px;
+
+      font-size: 2.2rem;
+      cursor: pointer;
+
+      background: none;
+      border: none;
+      outline: none;
+
+      color: rgba(60, 0, 80, 0.45);
+      transition: 0.25s ease;
+      z-index: 50;
+    }
+
+    #muteBtn:hover {
+      transform: scale(1.15);
+      color: rgba(60, 0, 80, 0.85);
+    }
+
+    /* Slant line when muted */
+    #muteBtn.muted::after {
+      content: "";
+      position: absolute;
+      width: 42px;
+      height: 3px;
+      background: rgba(60, 0, 80, 0.75);
+
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-25deg);
+
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sounds -->
+  <audio id="openSound" src="./assets/audios/enve.mp3"></audio>
+  <audio id="loveSong" src="./assets/audios/love.mp3" loop></audio>
+
+  <!-- Back Button -->
+  <button id="backBtn">🠸</button>
+
+  <!-- Mute Button -->
+  <button id="muteBtn">🕪</button>
+
+  <!-- Envelope Wrapper -->
+  <div class="envelope-wrapper" id="env">
+
+    <!-- Paper Letter -->
+    <div class="letter">
+      <div class="letter-content">
+
+        <b>My Akash &lt;3,</b><br>
+
+        Ik we have had a couple of rough months, maybe more than a couple...
+        but I’m glad we found our way back to each other always...
+        and now as I promised, <b>I’ll be here always.</b><br><br>
+
+        Ig just have to remind myself how lucky I am to have you,  
+        and I guess sometimes I forget that...
+        and well then <b>those</b> things happen... 
+        <i><u>I’m sorry for that.</i></u><br><br>
+
+        But yes, you somehow became <b><i>my calm in the chaos</b></i>
+        and now you are the one I wanna keep choosing again and again,  
+        every second of every day…<br><br>
+
+        Because you, <i><u><b>Akash Bharti</b></u></i>, mean more to me now than anyone else...
+        idk how that transition happened...
+        strangers to this...
+        but I’m so glad it did.<br><br>
+
+        I wanna spend <b>my every waking moment with you and only you, </b>
+        no matter how busy I am or how hard it gets…<br><br>
+
+        <b><u>I. LOVE. YOU. AKASH.</b></u><br><br>
+
+        I just want you to know that you...<br> are never just my Valentine  
+        you are my <b><i>"always & forever"</i></b><br><br>
+
+        And yes all the things I have said here are true and i will abide by them as best as i can forever...<br><br>
+
+        <b><u>Happy Valentine’s Day my bubble 🫧❤️</b></u><br><br>
+
+        With Love,<br>
+        <b>your Riddhi &lt;3</b>
+
+      </div>
+
+    </div>
+
+    <!-- Envelope -->
+    <div class="envelope">
+      <div class="pocket"></div>
+      <div class="flap"></div>
+
+      <div class="envelope-text">
+        Happy Valentine’s Day!<br>
+        <u>my ♡ sky ♡</u>
+      </div>
+
+      <div class="seal">💜</div>
+    </div>
+
+  </div>
+
+  <script>
+    /* Floating Hearts Mixed */
+    const heartEmojis = ["❤️", "💙", "💜"];
+
+    for (let i = 0; i < 25; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart-bg";
+      heart.textContent =
+        heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.top = Math.random() * 100 + "%";
+      heart.style.fontSize = 23+"px";
+      heart.style.animationDelay = Math.random() * 6 + "s";
+
+      document.body.appendChild(heart);
+    }
+
+    const env = document.getElementById("env");
+    const openSound = document.getElementById("openSound");
+    const loveSong = document.getElementById("loveSong");
+
+    const backBtn = document.getElementById("backBtn");
+    const muteBtn = document.getElementById("muteBtn");
+
+    let opened = false;
+    let muted = false;
+
+    /* Open Envelope */
+    env.addEventListener("click", () => {
+      if (opened) return;
+      opened = true;
+
+      openSound.play();
+      env.classList.add("open");
+
+      /* Play music after paper comes out */
+      setTimeout(() => {
+        if (!muted) loveSong.play();
+      }, 1200);
+    });
+
+    /* Mute Toggle */
+    muteBtn.addEventListener("click", () => {
+      muted = !muted;
+
+      if (muted) {
+        loveSong.pause();
+        muteBtn.classList.add("muted");
+      } else {
+        loveSong.play();
+        muteBtn.classList.remove("muted");
+      }
+    });
+
+    /* Back Button */
+    backBtn.addEventListener("click", () => {
+      loveSong.pause();
+      loveSong.currentTime = 0;
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For ridz's SKY ❤️</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(to bottom right, #9790f4, #f79af7, #fa7f90);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 70px 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: #4a0435;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    p.subtitle {
+      font-size: 1.1rem;
+      color: rgba(70, 20, 55, 0.75);
+      margin-bottom: 60px;
+      text-align: center;
+    }
+
+    /* Floating Hearts */
+    .heart {
+      position: absolute;
+      font-size: 18px;
+      opacity: 0.18;
+      animation: floatUp 8s infinite ease-in-out;
+      pointer-events: none;
+      
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-25px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* ROWS */
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      margin-bottom: 35px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    /* Cards */
+    .day-card {
+      width: 280px;
+      padding: 32px 20px;
+      border-radius: 22px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 10px 25px rgba(80, 30, 90, 0.15);
+      transition: all 0.35s ease;
+      cursor: pointer;
+    }
+
+    .day-card h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.7rem;
+      color: #6a1c52;
+      margin-bottom: 10px;
+    }
+
+    .day-card p {
+      font-size: 1rem;
+      color: rgba(60, 20, 50, 0.75);
+    }
+
+    /* Hover */
+    .day-card.unlocked:hover {
+      transform: translateY(-10px) scale(1.04);
+      border-color: rgba(190, 90, 170, 0.55);
+      box-shadow: 0 0 28px rgba(190, 90, 170, 0.25);
+    }
+
+    /* Locked */
+    .day-card.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(60%);
+    }
+
+    .locked-text {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: rgba(80, 30, 60, 0.55);
+    }
+
+    /* Valentine Special */
+    .valentine {
+      border: 2px solid rgba(190, 90, 170, 0.6);
+      background: rgba(255, 255, 255, 0.7);
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Akash's Valentine’s Gifts </h1>
+  <p class="subtitle">Each day unlocks a special surprise....patience is the key cutie 💕</p>
+
+  <!-- ROWS -->
+  <div class="row" id="row1"></div>
+  <div class="row" id="row2"></div>
+  <div class="row" id="row3"></div>
+
+  <script>
+    /* Floating Hearts */
+    for (let i = 0; i < 18; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "💜";
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.top = Math.random() * 100 + "%";
+      heart.style.animationDelay = Math.random() * 6 + "s";
+      document.body.appendChild(heart);
+    }
+
+    const today = new Date().toLocaleDateString("en-CA");
+
+
+    /* Days with Pages */
+    const days = [
+      { name: "Rose Day", date: "2026-02-07", page: "roseDay.html", row: 1 },
+      { name: "Propose Day", date: "2026-02-08", page: "proposeDay.html", row: 1 },
+      { name: "Chocolate Day", date: "2026-02-09", page: "chocoDay.html", row: 1 },
+      { name: "Teddy Day", date: "2026-02-10", page: "teddyDay.html", row: 1 },
+
+      { name: "Promise Day", date: "2026-02-11", page: "promiseDay.html", row: 2 },
+      { name: "Hug Day", date: "2026-02-12", page: "hugDay.html", row: 2 },
+      { name: "Kiss Day", date: "2026-02-13", page: "kissDay.html", row: 2 },
+
+      { name: "Valentine’s Day", date: "2026-02-14", page: "valDay.html", row: 3, special: true }
+    ];
+
+    days.forEach(day => {
+      const card = document.createElement("div");
+      card.className = "day-card";
+
+      if (day.special) card.classList.add("valentine");
+
+      card.innerHTML = `
+        <h3>${day.name}</h3>
+        <p>${day.date}</p>
+      `;
+
+      /* Unlock logic */
+      if (day.date < today || day.date === today) {
+        card.classList.add("unlocked");
+
+        /* CLICK Redirect */
+        card.addEventListener("click", () => {
+          window.location.href = day.page;
+        });
+
+      } else {
+        card.classList.add("locked");
+        card.innerHTML += `<p class="locked-text">Unlocks soon... 💌</p>`;
+      }
+
+      document.getElementById("row" + day.row).appendChild(card);
+    });
+  </script>
+
+</body>
+</html>
